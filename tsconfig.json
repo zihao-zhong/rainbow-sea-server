@@ -17,7 +17,20 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@app/db": [
+        "libs/db/src"
+      ],
+      "@app/db/*": [
+        "libs/db/src/*"
+      ]
+    }
   },
-  "include": ["./src/**/*"],
-  "exclude": ["public"]
+  "include": [
+    "./src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/*.spec.ts"
+  ]
 }

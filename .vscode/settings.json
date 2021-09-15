@@ -3,4 +3,5 @@
     "source.fixAll.eslint": true
   },
   "editor.formatOnSave": true,
+  "json.schemaDownload.enable": false
 }
