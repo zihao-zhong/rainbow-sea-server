@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { Config } from '@app/config';
 
 @Injectable()
 export class UserService {
@@ -8,7 +9,8 @@ export class UserService {
     return 'This action adds a new user';
   }
 
-  findAll() {
+  findAll(config: Config) {
+    console.log(config);
     return `This action returns all user`;
   }
 
