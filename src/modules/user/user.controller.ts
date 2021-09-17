@@ -14,9 +14,9 @@ export class UserController {
     return this.userService.create(createUserDto);
   }
 
-  @Get()
-  findAll() {
-    return this.userService.findAll();
+  @Get('list')
+  async getUserList() {
+    return this.userService.getUserList();
   }
 
   @Get(':id')
