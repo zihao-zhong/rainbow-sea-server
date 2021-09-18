@@ -5,7 +5,7 @@ import * as moment from 'moment';
   tableName: 'r_user',
   comment: '用户表',
 })
-export class User extends Model<User> {
+export default class User extends Model<User> {
   @Column({
     type: DataType.INTEGER({ length: 11 }).UNSIGNED,
     allowNull: false,

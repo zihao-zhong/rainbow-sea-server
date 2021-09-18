@@ -5,6 +5,8 @@ import { UserModule } from '../user/user.module';
 import { ConfigModule } from '@nestjs/config';
 import ConfigService from '@app/config';
 import { DbModule } from '@app/db';
+// import { SequelizeModule } from '@nestjs/sequelize';
+// const { database } = ConfigService();
 
 @Module({
   imports: [
@@ -13,6 +15,9 @@ import { DbModule } from '@app/db';
       load: [ConfigService],
     }),
     DbModule,
+    // SequelizeModule.forRoot({
+    //   ...database
+    // }),
     UserModule,
   ],
   controllers: [AppController],
