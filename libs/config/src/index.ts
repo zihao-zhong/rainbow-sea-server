@@ -8,5 +8,5 @@ export default (): ConfigInterface => ({
     host: process.env.DATABASE_HOST, // 数据库IP地址
     port: parseInt(process.env.DATABASE_PORT, 10), // 数据库端口号
     dialect: process.env.DATABASE_DIALECT as 'mysql', // 数据库类型
-  }
+  },
 });

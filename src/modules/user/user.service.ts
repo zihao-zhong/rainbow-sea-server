@@ -1,12 +1,13 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-// import { User } from '@app/db';
+import { User, USER_REPOSITORY } from '@app/db';
 
 @Injectable()
 export class UserService {
   constructor(
-    // private readonly userRepository: typeof User,
+    @Inject(USER_REPOSITORY)
+    private readonly userRepository: typeof User,
   ) {}
 
   create(createUserDto: CreateUserDto) {
@@ -14,8 +15,8 @@ export class UserService {
   }
 
   async getUserList() {
-    // return this.userRepository.findAll();
-    return 'list';
+    return this.userRepository.findAll();
+    // return 'list';
   }
 
   findOne(id: number) {

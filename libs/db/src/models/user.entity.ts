@@ -4,8 +4,10 @@ import * as moment from 'moment';
 @Table({
   tableName: 'r_user',
   comment: '用户表',
+  timestamps: false,
+  freezeTableName: true, // 保持表名，不需要加复数形式
 })
-export default class User extends Model<User> {
+export class User extends Model<User> {
   @Column({
     type: DataType.INTEGER({ length: 11 }).UNSIGNED,
     allowNull: false,
