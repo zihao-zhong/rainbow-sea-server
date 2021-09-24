@@ -1,9 +1,9 @@
 create table r_user (
   id int(11) NOT NULL AUTO_INCREMENT COMMENT '自增ID',
   username varchar(255) NULL COMMENT '用户名',
-  phone int(11) NULL COMMENT '手机号码',
+  phone varchar(255) NULL COMMENT '手机号码',
   email varchar(255) NULL COMMENT '邮箱地址',
-  qq int(11) NULL COMMENT 'qq号码',
+  qq varchar(255) NULL COMMENT 'qq号码',
   avatar varchar(255) NULL COMMENT '头像',
   role varchar(255) DEFAULT 'general' COMMENT '角色',
   created_by varchar(255) DEFAULT NULL COMMENT '创建人',

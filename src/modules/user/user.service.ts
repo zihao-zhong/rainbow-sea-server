@@ -10,24 +10,32 @@ export class UserService {
     private readonly userRepository: typeof User,
   ) {}
 
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
-  }
-
-  async getUserList() {
+  // 获取用户列表
+  async getUserList(): Promise<User[]> {
     return this.userRepository.findAll();
-    // return 'list';
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  // 根据id获取用户信息
+  async getUserInfoById(id: number): Promise<User> {
+    return this.userRepository.findByPk(id);
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  // 创建用户
+  async create(createUserDto: CreateUserDto): Promise<User> {
+    return this.userRepository.create(createUserDto);
+  }
+  
+  // 修改用户信息
+  async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
+    const user = await this.getUserInfoById(id);
+    if (!user) throw new Error('找不到该用户');
+    return user.update(updateUserDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  // 删除用户
+  async delete(id: number): Promise<void> {
+    const user = await this.getUserInfoById(id);
+    if (!user) throw new Error('找不到该用户');
+    return user.destroy();
   }
 }

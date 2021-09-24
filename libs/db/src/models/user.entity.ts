@@ -7,7 +7,7 @@ import * as moment from 'moment';
   timestamps: false,
   freezeTableName: true, // 保持表名，不需要加复数形式
 })
-export class User extends Model<User> {
+export class User extends Model {
   @Column({
     type: DataType.INTEGER({ length: 11 }).UNSIGNED,
     allowNull: false,
@@ -27,13 +27,13 @@ export class User extends Model<User> {
   public username: string;
 
   @Column({
-    type: DataType.INTEGER({ length: 11 }).UNSIGNED,
+    type: DataType.STRING(255),
     allowNull: true,
     defaultValue: null,
     comment: '手机号码',
     field: 'phone',
   })
-  public phone: number;
+  public phone: string;
 
   @Column({
     type: DataType.STRING(255),
@@ -42,21 +42,22 @@ export class User extends Model<User> {
     comment: '邮箱地址',
     field: 'email',
   })
-  email: string;
-
-  @Column({
-    type: DataType.INTEGER({ length: 11 }),
-    allowNull: true,
-    defaultValue: null,
-    comment: 'qq号码',
-    field: 'qq',
-  })
-  qq: number;
+  public email: string;
 
   @Column({
     type: DataType.STRING(255),
     allowNull: true,
     defaultValue: null,
+    comment: 'qq号码',
+    field: 'qq',
+  })
+  public qq: string;
+
+  @Column({
+    type: DataType.STRING(255),
+    allowNull: true,
+    defaultValue: null,
+    comment: '创建人',
     field: 'created_by',
   })
   public createdBy: string;
@@ -65,6 +66,7 @@ export class User extends Model<User> {
     type: DataType.STRING(255),
     allowNull: true,
     defaultValue: null,
+    comment: '修改人',
     field: 'updated_by',
   })
   public updatedBy: string;
@@ -73,6 +75,7 @@ export class User extends Model<User> {
     type: DataType.DATE,
     allowNull: true,
     defaultValue: null,
+    comment: '创建时间',
     field: 'created_at',
     get() {
       return moment(this.getDataValue('createdAt')).format('YYYY-MM-DD HH:mm:ss');
@@ -84,6 +87,7 @@ export class User extends Model<User> {
     type: DataType.DATE,
     allowNull: true,
     defaultValue: null,
+    comment: '修改时间',
     field: 'updated_at',
     get() {
       return moment(this.getDataValue('updatedAt')).format('YYYY-MM-DD HH:mm:ss');
