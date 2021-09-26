@@ -2,6 +2,7 @@ import { Injectable, Inject } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User, USER_REPOSITORY } from '@app/db';
+// import { BadRequest, Forbidden, NotFound } from '../../filter/common.filter';
 
 @Injectable()
 export class UserService {
@@ -22,7 +23,13 @@ export class UserService {
 
   // 创建用户
   async create(createUserDto: CreateUserDto): Promise<User> {
-    return this.userRepository.create(createUserDto);
+    return this.userRepository.create<User>({
+      ...createUserDto,
+      createdBy: '钟梓豪',
+      updatedBy: '钟梓豪',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
   }
   
   // 修改用户信息

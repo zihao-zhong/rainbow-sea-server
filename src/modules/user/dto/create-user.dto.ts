@@ -1,4 +1,4 @@
-import { IsString, IsDate, IsEmail, IsPhoneNumber } from 'class-validator';
+import { IsString, IsDate, IsEmail, IsMobilePhone } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateUserDto {
@@ -8,7 +8,7 @@ export class CreateUserDto {
   })
   username: string;
 
-  @IsPhoneNumber('CH', {
+  @IsMobilePhone('zh-CN', {}, {
     message: '请输入正确的电话号码',
   })
   @ApiProperty({
@@ -16,9 +16,7 @@ export class CreateUserDto {
   })
   phone: string;
 
-  @IsEmail(null, {
-    message: '请输入正确的邮件地址',
-  })
+  @IsEmail()
   @ApiProperty({
     description: '邮件地址',
   })
@@ -29,28 +27,4 @@ export class CreateUserDto {
     description: 'qq号码',
   })
   qq: string;
-
-  @IsString()
-  @ApiProperty({
-    description: '创建人',
-  })
-  createdBy: string;
-
-  @IsString()
-  @ApiProperty({
-    description: '修改人',
-  })
-  updatedBy: string;
-
-  @IsDate()
-  @ApiProperty({
-    description: '创建时间',
-  })
-  createdAt: Date;
-
-  @IsDate()
-  @ApiProperty({
-    description: '修改时间',
-  })
-  updatedAt: Date;
 }
