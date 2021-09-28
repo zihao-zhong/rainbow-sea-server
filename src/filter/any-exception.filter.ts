@@ -19,8 +19,9 @@ export class AllExceptionsFilter implements ExceptionFilter {
         : HttpStatus.INTERNAL_SERVER_ERROR;
 
     response.status(status).json({
-      statusCode: status,
+      code: status,
       message: (exception as HttpException).message,
+      data: null,
     });
   }
 }

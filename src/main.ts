@@ -5,6 +5,8 @@ import { AppModule } from './modules/app/app.module';
 import * as rateLimit from 'express-rate-limit';
 import { AllExceptionsFilter } from './filter/any-exception.filter'
 import { ValidationPipe } from './pipes/validate.pipe';
+import { TransformInterceptor } from './interceptor/transform.interceptor';
+import { TimeoutInterceptor } from './interceptor/timeout.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -34,6 +36,10 @@ async function bootstrap() {
 
   // 注册全局的请求参数校验管道
   app.useGlobalPipes(new ValidationPipe());
+
+  // 注册全局的拦截器
+  app.useGlobalInterceptors(new TransformInterceptor());
+  app.useGlobalInterceptors(new TimeoutInterceptor());
 
   await app.listen(3333);
 }
