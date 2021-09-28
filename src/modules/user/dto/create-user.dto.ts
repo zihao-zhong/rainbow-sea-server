@@ -16,7 +16,9 @@ export class CreateUserDto {
   })
   phone: string;
 
-  @IsEmail()
+  @IsEmail({}, {
+    message: '请输入正确的邮件地址',
+  })
   @ApiProperty({
     description: '邮件地址',
   })
