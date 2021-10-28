@@ -1,14 +1,17 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
+import { CreateUserDto, UserRegisterCodeDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User, USER_REPOSITORY } from '@app/db';
 // import { BadRequest, Forbidden, NotFound } from '../../filter/common.filter';
+import { getAuthCode } from '@app/tools';
+import { EmailService } from '@app/email';
 
 @Injectable()
 export class UserService {
   constructor(
     @Inject(USER_REPOSITORY)
     private readonly userRepository: typeof User,
+    private readonly emailService: EmailService,
   ) {}
 
   // 获取用户列表
@@ -22,7 +25,7 @@ export class UserService {
   }
 
   // 创建用户
-  async create(createUserDto: CreateUserDto): Promise<User> {
+  async register(createUserDto: CreateUserDto): Promise<User> {
     return this.userRepository.create<User>({
       ...createUserDto,
       createdBy: '钟梓豪',
@@ -30,6 +33,21 @@ export class UserService {
       createdAt: new Date(),
       updatedAt: new Date(),
     });
+  }
+
+  // 用户注册获取验证码
+  async sendRegisterCode(userRegisterCodeDto: UserRegisterCodeDto): Promise<string> {
+    try {
+      const code = getAuthCode();
+      await this.emailService.sendMail({
+        to: userRegisterCodeDto.email,
+        subject: '测试邮箱',
+        text: `您的验证码是： ${code}`,
+      });
+      return '验证码已发送至您的邮箱，请查收';
+    } catch (e) {
+      return '邮件发送失败，请稍后重试';
+    }
   }
   
   // 修改用户信息

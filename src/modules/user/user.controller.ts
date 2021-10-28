@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Query, Delete } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { UserService } from './user.service';
-import { CreateUserDto } from './dto/create-user.dto';
+import { CreateUserDto, UserRegisterCodeDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from '@app/db';
 
@@ -20,9 +20,14 @@ export class UserController {
     return this.userService.getUserInfoById(+id);
   }
 
-  @Post('create')
-  async create(@Body() createUserDto: CreateUserDto): Promise<User> {
-    return this.userService.create(createUserDto);
+  @Post('register')
+  async register(@Body() createUserDto: CreateUserDto): Promise<User> {
+    return this.userService.register(createUserDto);
+  }
+
+  @Post('register/code')
+  async sendRegisterCode(@Body() userRegisterCodeDto: UserRegisterCodeDto): Promise<string> {
+    return this.userService.sendRegisterCode(userRegisterCodeDto);
   }
 
   @Patch('update')

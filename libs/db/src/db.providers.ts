@@ -2,7 +2,7 @@ import { Sequelize } from 'sequelize-typescript';
 import { ConfigService } from '@nestjs/config';
 import { User } from './models/user.entity';
 
-export const DtProviders = [
+export const DbProviders = [
   {
     provide: 'SEQUELIZE',
     inject: [ConfigService],

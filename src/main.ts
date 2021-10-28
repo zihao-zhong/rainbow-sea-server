@@ -39,7 +39,7 @@ async function bootstrap() {
 
   // 注册全局的拦截器
   app.useGlobalInterceptors(new TransformInterceptor());
-  app.useGlobalInterceptors(new TimeoutInterceptor());
+  // app.useGlobalInterceptors(new TimeoutInterceptor());
 
   await app.listen(3333);
 }

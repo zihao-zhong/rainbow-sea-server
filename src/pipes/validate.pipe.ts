@@ -14,7 +14,7 @@ export class ValidationPipe implements PipeTransform<any> {
       try {
         const errorObjValues = errors.reduce((prev, cur): any => {
           return { ...prev?.constraints, ...cur?.constraints };
-        })
+        }, { constraints: {} });
         const error = Object.values(errorObjValues).join('; ');
         throw new BadRequestException(error);
       } catch (error) {

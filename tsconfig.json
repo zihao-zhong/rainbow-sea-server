@@ -29,6 +29,18 @@
       ],
       "@app/config/*": [
         "libs/config/src/*"
+      ],
+      "@app/email": [
+        "libs/email/src"
+      ],
+      "@app/email/*": [
+        "libs/email/src/*"
+      ],
+      "@app/tools": [
+        "libs/tools/src"
+      ],
+      "@app/tools/*": [
+        "libs/tools/src/*"
       ]
     }
   },
