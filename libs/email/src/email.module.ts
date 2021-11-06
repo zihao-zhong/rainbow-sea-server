@@ -16,8 +16,8 @@ import { MailerModule } from '@nestjs-modules/mailer';
           host: 'smtp.exmail.qq.com', //邮箱服务器地址
           port: 465, //服务器端口 默认 465
           auth: {
-            user: configService.get('companyEmail'), //你的邮箱地址
-            pass: configService.get('emailPassword'),
+            user: configService.get('email').user, //你的邮箱地址
+            pass: configService.get('email').password,
           },
         },
         defaults: {

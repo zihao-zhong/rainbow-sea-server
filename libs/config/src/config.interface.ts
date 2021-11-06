@@ -1,8 +1,11 @@
 import { SequelizeOptions } from 'sequelize-typescript';
+import { RedisOption } from 'redis';
 
 export interface ConfigInterface {
   database: SequelizeOptions;
-  redis: {};
-  companyEmail: string;
-  emailPassword: string;
+  redis: RedisOption;
+  email: {
+    user: string;
+    password: string;
+  },
 }

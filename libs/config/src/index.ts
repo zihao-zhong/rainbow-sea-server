@@ -11,8 +11,15 @@ export default (): ConfigInterface => ({
     dialect: process.env.DATABASE_DIALECT as 'mysql', // 数据库类型
   },
   // redis 数据库配置
-  redis: {},
-  // 邮箱配置
-  companyEmail: process.env.COMPANY_EMAIL,
-  emailPassword: process.env.EMAIL_PASSWORD,
+  redis: {
+    host: process.env.REDIS_HOST,
+    port: parseInt(process.env.REDIS_PORT, 10),
+    db: parseInt(process.env.REDIS_DB, 10),
+    password: process.env.REDIS_PASSWORD,
+  },
+  // email 邮箱配置
+  email: {
+    user: process.env.COMPANY_EMAIL,
+    password: process.env.EMAIL_PASSWORD,
+  },
 });

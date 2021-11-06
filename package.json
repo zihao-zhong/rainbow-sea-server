@@ -34,7 +34,9 @@
     "express-rate-limit": "^5.3.0",
     "moment": "^2.29.1",
     "mysql2": "^2.3.0",
+    "nestjs-redis": "git+https://github.com/GyanendroKh/nestjs-redis.git#nest8-fix",
     "nodemailer": "^6.7.0",
+    "redis": "^3.1.2",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
@@ -91,7 +93,8 @@
       "^@app/db(|/.*)$": "<rootDir>/libs/db/src/$1",
       "^@app/config(|/.*)$": "<rootDir>/libs/config/src/$1",
       "^@app/email(|/.*)$": "<rootDir>/libs/email/src/$1",
-      "^@app/tools(|/.*)$": "<rootDir>/libs/tools/src/$1"
+      "^@app/tools(|/.*)$": "<rootDir>/libs/tools/src/$1",
+      "^@app/redis(|/.*)$": "<rootDir>/libs/redis/src/$1"
     }
   }
 }

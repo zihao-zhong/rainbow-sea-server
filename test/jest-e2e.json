@@ -18,6 +18,8 @@
     "@app/email/(.*)": "<rootDir>/../libs/email/src/$1",
     "@app/email": "<rootDir>/../libs/email/src",
     "@app/tools/(.*)": "<rootDir>/../libs/tools/src/$1",
-    "@app/tools": "<rootDir>/../libs/tools/src"
+    "@app/tools": "<rootDir>/../libs/tools/src",
+    "@app/redis/(.*)": "<rootDir>/../libs/redis/src/$1",
+    "@app/redis": "<rootDir>/../libs/redis/src"
   }
 }
