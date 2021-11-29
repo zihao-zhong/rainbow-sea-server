@@ -20,6 +20,6 @@ export default (): ConfigInterface => ({
   // email 邮箱配置
   email: {
     user: process.env.COMPANY_EMAIL,
-    password: process.env.EMAIL_PASSWORD,
+    pass: process.env.EMAIL_PASSWORD,
   },
 });

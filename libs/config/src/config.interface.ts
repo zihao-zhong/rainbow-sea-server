@@ -6,6 +6,6 @@ export interface ConfigInterface {
   redis: RedisOption;
   email: {
     user: string;
-    password: string;
+    pass: string;
   },
 }

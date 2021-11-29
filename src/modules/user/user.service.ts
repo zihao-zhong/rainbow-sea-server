@@ -2,7 +2,7 @@ import { Injectable, Inject } from '@nestjs/common';
 import { CreateUserDto, UserRegisterCodeDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User, USER_REPOSITORY } from '@app/db';
-// import { BadRequest, Forbidden, NotFound } from '../../filter/common.filter';
+import { BadRequest, Forbidden, NotFound } from '../../filter/common.filter';
 import { getAuthCode } from '@app/tools';
 import { EmailService } from '@app/email';
 
@@ -41,12 +41,18 @@ export class UserService {
       const code = getAuthCode();
       await this.emailService.sendMail({
         to: userRegisterCodeDto.email,
-        subject: '测试邮箱',
+        subject: '注册账号验证码',
         text: `您的验证码是： ${code}`,
+        // template: 'code.ejs',
+        // context: {
+        //   code,
+        //   sign: '彩虹海',
+        //   date: new Date(),
+        // }
       });
       return '验证码已发送至您的邮箱，请查收';
     } catch (e) {
-      return '邮件发送失败，请稍后重试';
+      throw new BadRequest('邮件发送失败，请稍后重试');
     }
   }
   

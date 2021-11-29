@@ -2,6 +2,9 @@
 // https://github.com/skunight/nestjs-redis/pull/85
 // https://github.com/skunight/nestjs-redis/issues/82
 
+// https://www.npmjs.com/package/@liaoliaots/nestjs-redis
+// "nestjs-redis": "git+https://github.com/GyanendroKh/nestjs-redis.git#nest8-fix",
+
 import { Module } from '@nestjs/common';
 import { IRedisService } from './redis.service';
 import { RedisModule as NestRedisModule } from 'nestjs-redis';

@@ -11,15 +11,12 @@ export class EmailService {
 
   /**
    * 发送邮件
-   * @param param {SendMailParams} 发送邮件参数
+   * @param params {SendMailParams} 发送邮件参数
    */
-  public async sendMail(param: ISendMailOptions): Promise<any> {
-    return await this.mailerService.sendMail({
-      to: param.to,
-      text: param.text,
-      html: param.html,
-      subject: param.subject,
-      from: this.configService.get('companyEmail'),
+  public async sendMail(params: ISendMailOptions): Promise<any> {
+    return this.mailerService.sendMail({
+      ...params,
+      from: this.configService.get('email').user,
     });
   }
 }

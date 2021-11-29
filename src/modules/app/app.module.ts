@@ -8,12 +8,18 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from '../user/user.module';
 import { LoggerMiddleware } from '../../middleware/logger.middleware';
+// import { RedisModule} from 'nestjs-redis';
+
 
 @Module({
   imports: [
     DbModule,
     EmailModule,
     // RedisModule,
+    // RedisModule.forRootAsync({
+    //   useFactory: (configService) => configService.get('redis'),
+    //   inject:[ConfigService]
+    // }),
     ConfigModule.forRoot({
       isGlobal: true,
       load: [ConfigService],
