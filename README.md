@@ -8,6 +8,9 @@
 - prettier
 - EditorConfig for Visual Studio Code
 
+### 前端项目链接
+[rainbow-sea-front](https://github.com/zihao-web/rainbow-sea-front)
+
 ### 启动项目
 
 ```
