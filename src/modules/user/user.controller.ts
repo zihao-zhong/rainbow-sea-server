@@ -1,8 +1,9 @@
 import { Controller, Get, Post, Body, Patch, Query, Delete } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { UserService } from './user.service';
-import { CreateUserDto, UserRegisterCodeDto } from './dto/create-user.dto';
+import { CreateUserDto, RegisterUserCodeDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { LoginUserDto, LoginUserInfo } from './dto/login-user.dto';
 import { User } from '@app/db';
 
 @ApiTags('用户模块接口')
@@ -20,14 +21,19 @@ export class UserController {
     return this.userService.getUserInfoById(+id);
   }
 
+  @Post('info')
+  async login(@Body() loginUserDto: LoginUserDto): Promise<LoginUserInfo> {
+    return this.userService.login(loginUserDto);
+  }
+
   @Post('register')
   async register(@Body() createUserDto: CreateUserDto): Promise<User> {
     return this.userService.register(createUserDto);
   }
 
   @Post('register/code')
-  async sendRegisterCode(@Body() userRegisterCodeDto: UserRegisterCodeDto): Promise<string> {
-    return this.userService.sendRegisterCode(userRegisterCodeDto);
+  async sendRegisterCode(@Body() registerUserCodeDto: RegisterUserCodeDto): Promise<string> {
+    return this.userService.sendRegisterCode(registerUserCodeDto);
   }
 
   @Patch('update')

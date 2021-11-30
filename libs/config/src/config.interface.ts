@@ -8,4 +8,6 @@ export interface ConfigInterface {
     user: string;
     pass: string;
   },
+  secretKey: string;
+  signKey: string;
 }

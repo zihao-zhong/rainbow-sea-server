@@ -22,4 +22,8 @@ export default (): ConfigInterface => ({
     user: process.env.COMPANY_EMAIL,
     pass: process.env.EMAIL_PASSWORD,
   },
+  // 用户密码加密
+  secretKey: process.env.SECRET_KEY,
+  // 用户 token 加密
+  signKey: process.env.SIGN_KEY,
 });

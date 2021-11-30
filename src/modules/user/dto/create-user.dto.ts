@@ -5,20 +5,6 @@ import { ApiProperty } from '@nestjs/swagger';
  * 用户注册
  */
 export class CreateUserDto {
-  @IsString()
-  @ApiProperty({
-    description: '用户名',
-  })
-  username?: string;
-
-  @IsMobilePhone('zh-CN', {}, {
-    message: '请输入正确的电话号码',
-  })
-  @ApiProperty({
-    description: '电话号码',
-  })
-  phone?: string;
-
   @IsEmail({}, {
     message: '请输入正确的邮件地址',
   })
@@ -29,15 +15,23 @@ export class CreateUserDto {
 
   @IsString()
   @ApiProperty({
-    description: 'qq号码',
+    description: '密码',
   })
-  qq?: string;
+  password?: string;
+
+  @IsString()
+  @ApiProperty({
+    minLength: 6,
+    maxLength: 6,
+    description: '验证码',
+  })
+  code: string;
 }
 
 /**
  * UserRegisterCode 注册时获取验证码的接口传参类型
  */
-export class UserRegisterCodeDto {
+export class RegisterUserCodeDto {
   @IsEmail({}, {
     message: '请输入正确的邮件地址',
   })

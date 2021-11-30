@@ -21,6 +21,22 @@ export class User extends Model {
   @Column({
     type: DataType.STRING(255),
     allowNull: false,
+    comment: '邮箱地址',
+    field: 'email',
+  })
+  public email: string;
+
+  @Column({
+    type: DataType.STRING(255),
+    allowNull: false,
+    comment: '密码',
+    field: 'password',
+  })
+  public password: string;
+
+  @Column({
+    type: DataType.STRING(255),
+    allowNull: true,
     comment: '用户名',
     field: 'username',
   })
@@ -29,29 +45,19 @@ export class User extends Model {
   @Column({
     type: DataType.STRING(255),
     allowNull: true,
-    defaultValue: null,
-    comment: '手机号码',
-    field: 'phone',
+    comment: '用户头像',
+    field: 'avatar',
   })
-  public phone: string;
+  public avatar: string;
 
   @Column({
     type: DataType.STRING(255),
     allowNull: true,
-    defaultValue: null,
-    comment: '邮箱地址',
-    field: 'email',
+    defaultValue: 'general',
+    comment: '角色, general: 普通用户, admin: 管理员',
+    field: 'role',
   })
-  public email: string;
-
-  @Column({
-    type: DataType.STRING(255),
-    allowNull: true,
-    defaultValue: null,
-    comment: 'qq号码',
-    field: 'qq',
-  })
-  public qq: string;
+  public role: string;
 
   @Column({
     type: DataType.STRING(255),
