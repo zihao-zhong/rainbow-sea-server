@@ -11,13 +11,13 @@ export class IRedisService {
     private readonly redisService: RedisService,
   ) {}
 
-  async setName() {
+  async setName(): Promise<void> {
     const client = await this.redisService.getClient('test');
     const ret = client.set('name', 'like');
     console.log(ret);
   }
 
-  async getName() {
+  async getName(): Promise<void> {
     const client = await this.redisService.getClient('test');
     const name = client.get('name');
     console.log(name);

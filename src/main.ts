@@ -6,7 +6,7 @@ import * as rateLimit from 'express-rate-limit';
 import { AllExceptionsFilter } from './filter/any-exception.filter'
 import { ValidationPipe } from './pipes/validate.pipe';
 import { TransformInterceptor } from './interceptor/transform.interceptor';
-import { TimeoutInterceptor } from './interceptor/timeout.interceptor';
+// import { TimeoutInterceptor } from './interceptor/timeout.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

@@ -1,49 +1,26 @@
 module.exports = {
+  env: {
+    browser: true,
+    commonjs: true,
+    es2021: true,
+  },
+  extends: [
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+  ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    project: 'tsconfig.json',
-    sourceType: 'module',
     ecmaVersion: 12,
   },
-  plugins: ['@typescript-eslint/eslint-plugin'],
-  extends: [
-    'airbnb-base',
-    'plugin:@typescript-eslint/recommended',
-    'plugin:prettier/recommended',
+  plugins: [
+    '@typescript-eslint',
   ],
-  root: true,
-  env: {
-    node: true,
-    jest: true,
-  },
-  ignorePatterns: ['.eslintrc.js'],
   rules: {
-    'linebreak-style': 0, // 在window和mac的结尾的换行符不同，记录一下
-    '@typescript-eslint/interface-name-prefix': 'off',
-    '@typescript-eslint/explicit-function-return-type': 'off',
-    '@typescript-eslint/explicit-module-boundary-types': 'off',
+    // window mac 系统换行符问题处理
+    'linebreak-style': 0,
+    // 允许使用 any 类型，但请少用。除非实在无法确定类型且 unknown 也无法解决时
     '@typescript-eslint/no-explicit-any': 'off',
-    'import/resolver': {
-      node: {
-        extensions: ['.js', '.ts'],
-      },
-    },
-    'import/extensions': [
-      'error',
-      'ignorePackages',
-      {
-        js: 'never',
-        ts: 'never',
-      },
-    ],
-    'prettier/prettier': [
-      'error',
-      {
-        semi: true,
-        singleQuote: true,
-        trailingComma: 'all',
-        proseWrap: 'preserve',
-      },
-    ],
+    // 限制函数是否一定要定义返回值类型
+    // '@typescript-eslint/explicit-module-boundary-types': 'on',
   },
 };

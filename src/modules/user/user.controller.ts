@@ -1,10 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Query, Delete } from '@nestjs/common';
+import {
+  Controller, Get, Post, Body, Patch, Query, Delete,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { User } from '@app/db';
 import { UserService } from './user.service';
 import { CreateUserDto, RegisterUserCodeDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { LoginUserDto, LoginUserInfo } from './dto/login-user.dto';
-import { User } from '@app/db';
 
 @ApiTags('用户模块接口')
 @Controller('user')

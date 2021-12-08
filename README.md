@@ -31,8 +31,15 @@ npm run jest
 
 ### 构建项目
 
-```
+```js
+// 下载依赖包
+npm install
+
+// 打包构建
 npm run build
+
+// 重启服务
+pm2 restart nest
 ```
 
 ### 目录

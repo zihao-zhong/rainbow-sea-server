@@ -7,8 +7,8 @@ import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { EmailService } from './email.service';
 import { MailerModule } from '@nestjs-modules/mailer';
-import { EjsAdapter } from '@nestjs-modules/mailer/dist/adapters/ejs.adapter';
-import * as path from 'path';
+// import { EjsAdapter } from '@nestjs-modules/mailer/dist/adapters/ejs.adapter';
+// import * as path from 'path';
 
 @Module({
   imports: [

@@ -15,7 +15,7 @@ export class BadRequest extends HttpException {
  * @param {string} message 错误信息
  */
 export class Forbidden extends HttpException {
-  constructor(message: string = '抱歉，您暂无权限操作') {
+  constructor(message = '抱歉，您暂无权限操作') {
     super(message, HttpStatus.FORBIDDEN);
   }
 }
@@ -25,7 +25,7 @@ export class Forbidden extends HttpException {
  * @param {string} message 错误信息
  */
 export class NotFound extends HttpException {
-  constructor(message: string = '抱歉，找不到该资源') {
+  constructor(message = '抱歉，找不到该资源') {
     super(message, HttpStatus.NOT_FOUND);
   }
 }

@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { SentMessageInfo } from 'nodemailer';
 import { MailerService, ISendMailOptions } from '@nestjs-modules/mailer';
 
 @Injectable()
@@ -13,7 +14,7 @@ export class EmailService {
    * 发送邮件
    * @param params {SendMailParams} 发送邮件参数
    */
-  public async sendMail(params: ISendMailOptions): Promise<any> {
+  public async sendMail(params: ISendMailOptions): Promise<SentMessageInfo> {
     return this.mailerService.sendMail({
       ...params,
       from: this.configService.get('email').user,

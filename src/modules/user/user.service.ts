@@ -3,7 +3,7 @@ import { CreateUserDto, RegisterUserCodeDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { LoginUserDto, LoginUserInfo } from './dto/login-user.dto';
 import { User, USER_REPOSITORY } from '@app/db';
-import { BadRequest, Forbidden, NotFound } from '../../filter/common.filter';
+import { BadRequest } from '../../filter/common.filter';
 import { ConfigService } from '@nestjs/config';
 import { getAuthCode } from '@app/tools';
 import { EmailService } from '@app/email';
