@@ -93,8 +93,8 @@ export class UserService {
     return this.userRepository.create<User>({
       ...createUserDto,
       password,
-      createdBy: '钟梓豪',
-      updatedBy: '钟梓豪',
+      createdBy: 'rainbow_admin',
+      updatedBy: 'rainbow_admin',
       createdAt: new Date(),
       updatedAt: new Date(),
     });
