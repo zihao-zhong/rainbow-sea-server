@@ -7,6 +7,7 @@ import { BadRequest } from '../../filter/common.filter';
 import { ConfigService } from '@nestjs/config';
 import { getAuthCode } from '@app/tools';
 import { EmailService } from '@app/email';
+import { IRedisService } from '@app/redis';
 import * as CryptoJS from 'crypto-js';
 import * as Jwt from 'jsonwebtoken';
 
@@ -18,10 +19,14 @@ export class UserService {
     private readonly userRepository: typeof User,
     private readonly emailService: EmailService,
     private readonly configService: ConfigService,
+    private readonly redisService: IRedisService,
   ) {}
 
   // 获取用户列表
   async getUserList(): Promise<User[]> {
+    const res1 = await this.redisService.set('name', 'zhong');
+    const res2 = await this.redisService.get('name');
+    console.log(res1, res2, '------------');
     return this.userRepository.findAll();
   }
 
@@ -51,7 +56,7 @@ export class UserService {
       .toString(CryptoJS.enc.Utf8);
 
     if (loginPass !== userPass) {
-      // 后续做当天密码输入错误上限限制，超出不让再此进行登录，走忘记密码
+      // 后续做当天密码输入错误上限限制，超出不让再次进行登录，走忘记密码流程
       throw new BadRequest('密码错误，请检查您的密码');
     }
 
@@ -60,6 +65,7 @@ export class UserService {
 
     // token 存入 redis
 
+    // 登录成功，返回信息
     return {
       token,
       user: {
@@ -93,10 +99,10 @@ export class UserService {
     return this.userRepository.create<User>({
       ...createUserDto,
       password,
-      createdBy: 'rainbow_admin',
-      updatedBy: 'rainbow_admin',
       createdAt: new Date(),
       updatedAt: new Date(),
+      createdBy: 'rainbow_admin',
+      updatedBy: 'rainbow_admin',
     });
   }
 
@@ -108,12 +114,6 @@ export class UserService {
         to: registerUserCodeDto.email,
         subject: '注册账号验证码',
         text: `您的验证码是： ${code}`,
-        // template: 'code.ejs',
-        // context: {
-        //   code,
-        //   sign: '彩虹海',
-        //   date: new Date(),
-        // }
       });
       return '验证码已发送至您的邮箱，请查收';
     } catch (e) {

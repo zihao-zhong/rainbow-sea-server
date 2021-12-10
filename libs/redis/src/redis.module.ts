@@ -7,30 +7,39 @@
 
 import { Module } from '@nestjs/common';
 import { IRedisService } from './redis.service';
-import { RedisModule as NestRedisModule } from 'nestjs-redis';
+import { RedisModule } from 'nestjs-redis';
 import { ConfigService } from '@nestjs/config';
 
 
 @Module({
   imports: [
-    NestRedisModule.forRootAsync({
+    RedisModule.forRootAsync({
+      inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
         console.log(configService.get('redis'));
         return {
           ...configService.get('redis'),
-          // host: '119.91.94.162',
-          // port: 6379,
-          // db: 1,
-          // password: '1095996920Hao!',
+          tls: {
+            host: configService.get('redis').host,
+          },
           onClientReady() {
             console.log('Redis 数据库连接成功');
           },
         }
       },
-      inject: [ConfigService],
     }),
+    // 用于本地redis测试
+    // RedisModule.register({
+    //   host: '127.0.0.1',
+    //   port: 6379,
+    //   db: 0,
+    //   password: '123456',
+    //   onClientReady() {
+    //     console.log('Redis 数据库连接成功');
+    //   }
+    // }),
   ],
   providers: [IRedisService],
   exports: [IRedisService],
 })
-export class RedisModule {}
+export class IRedisModule {}
