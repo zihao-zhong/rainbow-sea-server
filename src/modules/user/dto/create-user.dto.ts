@@ -31,12 +31,4 @@ export class CreateUserDto {
 /**
  * UserRegisterCode 注册时获取验证码的接口传参类型
  */
-export class RegisterUserCodeDto {
-  @IsEmail({}, {
-    message: '请输入正确的邮件地址',
-  })
-  @ApiProperty({
-    description: '邮件地址',
-  })
-  email: string;
-}
+export type RegisterUserCodeDto = Pick<CreateUserDto, 'email'>;

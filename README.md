@@ -72,3 +72,9 @@ pm2 restart nest
 ├── tsconfig.json              // ts 配置文件
 └── vite.config.ts             // vite 配置文件
 ```
+
+### 代理
+
+```
+https://segmentfault.com/a/1190000027083723
+```

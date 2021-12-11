@@ -7,6 +7,7 @@ import { UserService } from './user.service';
 import { CreateUserDto, RegisterUserCodeDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { LoginUserDto, LoginUserInfo } from './dto/login-user.dto';
+import { ResponseMessage } from '../../types/http.interface';
 
 @ApiTags('用户模块接口')
 @Controller('user')
@@ -23,18 +24,19 @@ export class UserController {
     return this.userService.getUserInfoById(+id);
   }
 
-  @Post('info')
-  async login(@Body() loginUserDto: LoginUserDto): Promise<LoginUserInfo> {
+  @Post('login')
+  @ApiTags('登录接口')
+  async info(@Body() loginUserDto: LoginUserDto): Promise<LoginUserInfo> {
     return this.userService.login(loginUserDto);
   }
 
   @Post('register')
-  async register(@Body() createUserDto: CreateUserDto): Promise<User> {
+  async register(@Body() createUserDto: CreateUserDto): Promise<ResponseMessage> {
     return this.userService.register(createUserDto);
   }
 
   @Post('register/code')
-  async sendRegisterCode(@Body() registerUserCodeDto: RegisterUserCodeDto): Promise<string> {
+  async sendRegisterCode(@Body() registerUserCodeDto: RegisterUserCodeDto): Promise<ResponseMessage> {
     return this.userService.sendRegisterCode(registerUserCodeDto);
   }
 

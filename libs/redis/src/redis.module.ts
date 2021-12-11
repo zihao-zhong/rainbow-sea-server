@@ -10,6 +10,7 @@ import { IRedisService } from './redis.service';
 import { RedisModule } from 'nestjs-redis';
 import { ConfigService } from '@nestjs/config';
 
+// [ioredis] Unhandled error event: Error: read ECONNRESET
 
 @Module({
   imports: [
@@ -19,25 +20,13 @@ import { ConfigService } from '@nestjs/config';
         console.log(configService.get('redis'));
         return {
           ...configService.get('redis'),
-          tls: {
-            host: configService.get('redis').host,
-          },
+          connectTimeout: 10000,
           onClientReady() {
             console.log('Redis 数据库连接成功');
           },
         }
       },
     }),
-    // 用于本地redis测试
-    // RedisModule.register({
-    //   host: '127.0.0.1',
-    //   port: 6379,
-    //   db: 0,
-    //   password: '123456',
-    //   onClientReady() {
-    //     console.log('Redis 数据库连接成功');
-    //   }
-    // }),
   ],
   providers: [IRedisService],
   exports: [IRedisService],

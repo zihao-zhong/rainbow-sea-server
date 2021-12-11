@@ -23,16 +23,22 @@ export class IRedisService {
   }
 
   /**
-   * 
    * @param key {KeyType} 键
    * @param value {ValueType} 值
-   * @param time {number} 过期时间
    * @param expiryMode {string} 失效模式
    *        EX 过期时间单位是秒
-   *        PX 过期时间单位是分钟
+   *        PX 过期时间单位是毫秒
+   * @param time {number} 过期时间
+   * @param setMode {number} 暂不知道这个参数的意义
    * @returns string | null
    */
-  async set(key: KeyType, value: ValueType, time?: number, expiryMode = 'PX'): Promise<Ok | null> {
+  async set(
+    key: KeyType,
+    value: ValueType,
+    expiryMode?: string,
+    time?: number | string,
+    // setMode?: number | string
+  ): Promise<Ok | null> {
     return this.client.set(key, value, expiryMode, time);
   }
 

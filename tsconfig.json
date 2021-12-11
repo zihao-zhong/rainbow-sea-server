@@ -18,6 +18,9 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
+      "@/*": [
+        "src/*"
+      ],
       "@app/db": [
         "libs/db/src"
       ],

@@ -10,6 +10,7 @@ import { EmailService } from '@app/email';
 import { IRedisService } from '@app/redis';
 import * as CryptoJS from 'crypto-js';
 import * as Jwt from 'jsonwebtoken';
+import { ResponseMessage } from '../../types/http.interface';
 
 
 @Injectable()
@@ -24,7 +25,7 @@ export class UserService {
 
   // 获取用户列表
   async getUserList(): Promise<User[]> {
-    const res1 = await this.redisService.set('name', 'zhong');
+    const res1 = await this.redisService.set('name', 'zhong', 'EX', 30);
     const res2 = await this.redisService.get('name');
     console.log(res1, res2, '------------');
     return this.userRepository.findAll();
@@ -35,6 +36,7 @@ export class UserService {
     return this.userRepository.findByPk(id);
   }
 
+  // 登录
   async login(loginUserDto: LoginUserDto): Promise<LoginUserInfo> {
     const user = await this.userRepository.findOne({
       where: {
@@ -63,20 +65,19 @@ export class UserService {
     // 检验成功，生成 token
     const token = Jwt.sign({ data: user.email }, this.configService.get('signKey'));
 
-    // token 存入 redis
+    // token 存入 redis, 设置过期时间24小时86400
+    await this.redisService.set(`user_${user.id}_token`, token, 'EX', 86400);
 
     // 登录成功，返回信息
     return {
+      user,
       token,
-      user: {
-        ...user,
-        password: null,
-      },
     }
   }
 
   // 创建用户
-  async register(createUserDto: CreateUserDto): Promise<User> {
+  async register(createUserDto: CreateUserDto): Promise<ResponseMessage> {
+    // 根据邮箱查找用户是否已经存在
     const user = await this.userRepository.findOne({
       where: {
         email: createUserDto.email,
@@ -84,6 +85,12 @@ export class UserService {
     });
     if (user) {
       throw new BadRequest('该用户已经存在');
+    }
+
+    // 验证用户的邮箱验证码
+    const code = await this.redisService.get(`register_code_${createUserDto.email}`);
+    if (!code || code !== createUserDto.code) {
+      throw new BadRequest('该验证码错误或验证码已过期，请重新获取');
     }
 
     // 解密客户端的密码
@@ -96,7 +103,7 @@ export class UserService {
       .encrypt(loginPass, this.configService.get('secretKey'))
       .toString();
 
-    return this.userRepository.create<User>({
+    const hasUser = await this.userRepository.create<User>({
       ...createUserDto,
       password,
       createdAt: new Date(),
@@ -104,18 +111,31 @@ export class UserService {
       createdBy: 'rainbow_admin',
       updatedBy: 'rainbow_admin',
     });
+
+    if (hasUser) {
+      return {
+        resMessage: '注册成功'
+      }
+    }
+    throw new BadRequest('用户注册失败，请稍后再试');
   }
 
   // 用户注册获取验证码
-  async sendRegisterCode(registerUserCodeDto: RegisterUserCodeDto): Promise<string> {
+  async sendRegisterCode(registerUserCodeDto: RegisterUserCodeDto): Promise<ResponseMessage> {
     try {
       const code = getAuthCode();
       await this.emailService.sendMail({
         to: registerUserCodeDto.email,
         subject: '注册账号验证码',
-        text: `您的验证码是： ${code}`,
+        text: `您的验证码是: ${code}`,
       });
-      return '验证码已发送至您的邮箱，请查收';
+
+      // 验证码存储到 redis 中，设置过期时间10分钟
+      await this.redisService.set(`register_code_${registerUserCodeDto.email}`, code, 'EX', 600);
+
+      return {
+        resMessage: '验证码已发送至您的邮箱，请查收',
+      }
     } catch (e) {
       throw new BadRequest('邮件发送失败，请稍后重试');
     }
