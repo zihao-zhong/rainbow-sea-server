@@ -75,6 +75,12 @@ pm2 restart nest
 
 ### 代理
 
-```
+```js
 https://segmentfault.com/a/1190000027083723
+
+// 设置成淘宝镜像
+npm config set registry http://registry.npm.taobao.org
+
+// 查看设置是否成功
+npm get registry 
 ```

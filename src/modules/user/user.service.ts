@@ -25,9 +25,6 @@ export class UserService {
 
   // 获取用户列表
   async getUserList(): Promise<User[]> {
-    const res1 = await this.redisService.set('name', 'zhong', 'EX', 30);
-    const res2 = await this.redisService.get('name');
-    console.log(res1, res2, '------------');
     return this.userRepository.findAll();
   }
 

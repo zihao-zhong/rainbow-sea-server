@@ -16,6 +16,7 @@ export const DbProviders = [
           max: 10,
           idle: 10000,
         },
+        logging: false,
       });
       try {
         await sequelize.authenticate();
