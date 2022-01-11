@@ -11,6 +11,7 @@ import { IRedisService } from '@app/redis';
 import * as CryptoJS from 'crypto-js';
 import * as Jwt from 'jsonwebtoken';
 import { ResponseMessage } from '../../types/http.interface';
+// import { QueryInterface } from 'sequelize';
 
 
 @Injectable()
@@ -25,12 +26,29 @@ export class UserService {
 
   // 获取用户列表
   async getUserList(): Promise<User[]> {
-    return this.userRepository.findAll();
+    return this.userRepository.findAll({
+      raw: true, // 指定 Sequelize 不包装实例，直接返回数据，这样查询速度会更快
+      paranoid: false, // 设置为 false 则返回已经被软删除的数据
+      include: [{
+        required: true, // 设置为 true 连表查询将变成 inner join ，默认则是 left join
+        right: true, // 为 true 则设置为 right join ，required 为 true 则这行无效
+      }],
+      logging(sql, timing) {
+        // 可做 sql 日志上报
+        console.log(sql, timing);
+      }
+    });
   }
 
   // 根据id获取用户信息
   async getUserInfoById(id: number): Promise<User> {
     return this.userRepository.findByPk(id);
+  }
+
+  async getUserInfoByEmail(email: string) {
+    return this.userRepository.scope({
+      method: ['findByEmail', email],
+    }).findOne();
   }
 
   // 登录
@@ -149,6 +167,8 @@ export class UserService {
   async delete(id: number): Promise<void> {
     const user = await this.getUserInfoById(id);
     if (!user) throw new Error('找不到该用户');
-    return user.destroy();
+    return user.destroy({
+      force: false // true 为物理删除，设置 false 则是软删除
+    });
   }
 }

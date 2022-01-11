@@ -1,4 +1,4 @@
-create table r_user (
+create table t_user (
   id int(11) NOT NULL AUTO_INCREMENT COMMENT '自增ID',
   email varchar(255) NOT NULL COMMENT '邮箱地址',
   password varchar(255) NOT NULL COMMENT '密码',
