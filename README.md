@@ -45,32 +45,33 @@ pm2 restart nest
 ### 目录
 
 ```
-├── build
-│   └── index.js               // 自动化构建脚本
-├── public                     // 静态资源
-├── tests                      // 测试
+├── dist
+│   └── index.js               // 构建后的入口文件
+├── libs                       // 内部工具库
+│   ├── config                 // 项目配置文件
+│   ├── db                     // mysql 数据库模型
+│   ├── redis                  // redis 数据库方法
+│   ├── tools                  // 工具集合
+│   ├── email                  // 发送邮件工具
 ├── src
-│   ├── api                    // api接口管理
-│   ├── asset                  // 主要放css, 图片等资源文件
-│   ├── component              // vue 组件
-│   ├── utils                  // 公共工具文件
-│   ├── pages                  // vue 页面
-│   ├── layout                 // vue 页面
-│   ├── plugins                // vue 插件
-│   ├── router                 // router 路由
-│   ├── types                  // ts 类型存放
-│   └── store                  // vuex 全局数据共享
-├── index.html                 // html 模版
+│   ├── decorator              // 装饰器方法
+│   ├── filter                 // 过滤器方法
+│   ├── guard                  // 权限方法
+│   ├── interceptor            // 拦截器方法
+│   ├── middleware             // 中间件方法
+│   ├── pipes                  // 管道方法
+│   ├── modules                // 模块-业务代码
+│   └── types                  // ts 类型存放
+├── tests                      // 自动化测试
 ├── .eslintignore              // eslint 校验忽略文件
 ├── .eslintre.js               // eslint 规范配置
 ├── .editorconfig              // 代码规范
 ├── .prettierrc                // 格式化代码格式
 ├── .gitignore                 // git 忽略的文件/目录配置
-├── .babel.js                  // babel 配置，在该文件中加babel插件。该项目使用babel7
 ├── package.json               // 项目配置，外部依赖模块
 ├── jest.config.js             // jest 配置文件
 ├── tsconfig.json              // ts 配置文件
-└── vite.config.ts             // vite 配置文件
+└── nest-cli.json              // nest 配置文件
 ```
 
 ### 代理
