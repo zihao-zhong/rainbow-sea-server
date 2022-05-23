@@ -13,7 +13,6 @@ import * as Jwt from 'jsonwebtoken';
 import { ResponseMessage } from '../../types/http.interface';
 // import { QueryInterface } from 'sequelize';
 
-
 @Injectable()
 export class UserService {
   constructor(
@@ -28,15 +27,10 @@ export class UserService {
   async getUserList(): Promise<User[]> {
     return this.userRepository.findAll({
       raw: true, // 指定 Sequelize 不包装实例，直接返回数据，这样查询速度会更快
-      paranoid: false, // 设置为 false 则返回已经被软删除的数据
-      include: [{
-        required: true, // 设置为 true 连表查询将变成 inner join ，默认则是 left join
-        right: true, // 为 true 则设置为 right join ，required 为 true 则这行无效
-      }],
       logging(sql, timing) {
         // 可做 sql 日志上报
         console.log(sql, timing);
-      }
+      },
     });
   }
 
@@ -46,9 +40,11 @@ export class UserService {
   }
 
   async getUserInfoByEmail(email: string) {
-    return this.userRepository.scope({
-      method: ['findByEmail', email],
-    }).findOne();
+    return this.userRepository
+      .scope({
+        method: ['findByEmail', email],
+      })
+      .findOne();
   }
 
   // 登录
@@ -56,21 +52,21 @@ export class UserService {
     const user = await this.userRepository.findOne({
       where: {
         email: loginUserDto.email,
-      }
+      },
     });
     if (!user) {
       throw new BadRequest('用户邮箱不存在，请检查邮箱地址或用此邮箱注册新用户');
     }
 
     // 解密客户端的密码
-    const loginPass = CryptoJS.AES
-      .decrypt(loginUserDto.password, this.configService.get('secretKey'))
-      .toString(CryptoJS.enc.Utf8);
+    const loginPass = CryptoJS.AES.decrypt(loginUserDto.password, this.configService.get('secretKey')).toString(
+      CryptoJS.enc.Utf8,
+    );
 
     // 解密数据库存储的密码
-    const userPass = CryptoJS.AES
-      .decrypt(user.password, this.configService.get('secretKey'))
-      .toString(CryptoJS.enc.Utf8);
+    const userPass = CryptoJS.AES.decrypt(user.password, this.configService.get('secretKey')).toString(
+      CryptoJS.enc.Utf8,
+    );
 
     if (loginPass !== userPass) {
       // 后续做当天密码输入错误上限限制，超出不让再次进行登录，走忘记密码流程
@@ -87,7 +83,7 @@ export class UserService {
     return {
       user,
       token,
-    }
+    };
   }
 
   // 创建用户
@@ -96,7 +92,7 @@ export class UserService {
     const user = await this.userRepository.findOne({
       where: {
         email: createUserDto.email,
-      }
+      },
     });
     if (user) {
       throw new BadRequest('该用户已经存在');
@@ -109,14 +105,12 @@ export class UserService {
     }
 
     // 解密客户端的密码
-    const loginPass = CryptoJS.AES
-      .decrypt(createUserDto.password, this.configService.get('secretKey'))
-      .toString(CryptoJS.enc.Utf8);
+    const loginPass = CryptoJS.AES.decrypt(createUserDto.password, this.configService.get('secretKey')).toString(
+      CryptoJS.enc.Utf8,
+    );
 
     // 再次更新密码加密，防止http请求过程中密码泄露
-    const password = CryptoJS.AES
-      .encrypt(loginPass, this.configService.get('secretKey'))
-      .toString();
+    const password = CryptoJS.AES.encrypt(loginPass, this.configService.get('secretKey')).toString();
 
     const hasUser = await this.userRepository.create<User>({
       ...createUserDto,
@@ -129,8 +123,8 @@ export class UserService {
 
     if (hasUser) {
       return {
-        resMessage: '注册成功'
-      }
+        resMessage: '注册成功',
+      };
     }
     throw new BadRequest('用户注册失败，请稍后再试');
   }
@@ -150,12 +144,12 @@ export class UserService {
 
       return {
         resMessage: '验证码已发送至您的邮箱，请查收',
-      }
+      };
     } catch (e) {
       throw new BadRequest('邮件发送失败，请稍后重试');
     }
   }
-  
+
   // 修改用户信息
   async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
     const user = await this.getUserInfoById(id);
@@ -168,7 +162,7 @@ export class UserService {
     const user = await this.getUserInfoById(id);
     if (!user) throw new Error('找不到该用户');
     return user.destroy({
-      force: false // true 为物理删除，设置 false 则是软删除
+      force: false, // true 为物理删除，设置 false 则是软删除
     });
   }
 }
