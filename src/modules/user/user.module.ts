@@ -7,6 +7,6 @@ import { IRedisService } from '@app/redis';
 
 @Module({
   controllers: [UserController],
-  providers: [UserService, EmailService, IRedisService, ...UserProviders],
+  providers: [UserService, EmailService, IRedisService, UserProviders],
 })
 export class UserModule {}

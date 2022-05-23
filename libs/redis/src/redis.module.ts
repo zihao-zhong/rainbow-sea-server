@@ -17,14 +17,15 @@ import { ConfigService } from '@nestjs/config';
     RedisModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
-        console.log(configService.get('redis'));
+        const redisConfig = configService.get('redis');
         return {
-          ...configService.get('redis'),
+          ...redisConfig,
           connectTimeout: 10000,
+          lazyConnect: true,
           onClientReady() {
-            console.log('Redis 数据库连接成功');
+            console.log('Redis 数据库连接成功', redisConfig.host, redisConfig.port);
           },
-        }
+        };
       },
     }),
   ],
