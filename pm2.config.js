@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: 'rainbow-server',
+      name: 'rainbow-sea-server',
       script: './dist/main.js',
       // exec_mode: 'cluster', // 启动集群模式
       // instances: 'max', // 启动进程数量，可开启多进程

@@ -1,14 +1,15 @@
-# 彩虹海🌈 后端项目
+# 彩虹海 🌈 后端项目
 
-## nestjs + ts  构建
+## nestjs + ts 构建
 
 ### 安装 vscode 插件
 
-- eslint 
+- eslint
 - prettier
 - EditorConfig for Visual Studio Code
 
 ### 前端项目链接
+
 [rainbow-sea-front](https://github.com/zihao-web/rainbow-sea-front)
 
 ### 启动项目
@@ -38,8 +39,49 @@ npm install
 // 打包构建
 npm run build
 
+pm2 start pm2.config.js
+pm2 stop pm2.config.js
+pm2 restart pm2.config.js
+pm2 reload pm2.config.js
+pm2 delete pm2.config.js
+
 // 重启服务
 pm2 restart nest
+```
+
+```js
+// 生成 Docker 容器实例 MySQL
+
+mkdir -p /root/docker/rainbow-sea-mysql
+cd /root/docker/rainbow-sea-mysql
+
+docker run -it -p 3306:3306 --name rainbow_sea_mysql -e MYSQL_ROOT_PASSWORD=123456 -d mysql:5.7
+
+docker run -it -p 3306:3306 --name rainbow_sea_mysql \
+-v /root/docker/rainbow-sea-mysql/conf:/etc/mysql \
+-v /root/docker/rainbow-sea-mysql/logs:/var/log/mysql \
+-v /root/docker/rainbow-sea-mysql/data:/var/lib/mysql \
+-e MYSQL_ROOT_PASSWORD=123456 \
+-d mysql:5.7 \
+--character-set-server=utf8mb4 \
+--collation-server=utf8mb4_unicode_ci
+
+// 进入容器内部
+docker exec -it rainbow-sea-mysql bash
+mysql -u root -p 123456
+// 退出容器
+exit
+
+
+// ============================================
+
+
+// 生成 Docker 容器实例 Redis
+docker run -p 6379:6379 --name rainbow-sea-redis \
+-v /root/docker/rainbow-sea-redis/conf/redis.conf:/etc/redis/redis.conf \
+-v /root/docker/rainbow-sea-redis/data:/data \
+-d redis:7.0.5 redis-server /etc/redis/redis.conf \
+
 ```
 
 ### 目录
@@ -83,5 +125,5 @@ https://segmentfault.com/a/1190000027083723
 npm config set registry http://registry.npm.taobao.org
 
 // 查看设置是否成功
-npm get registry 
+npm get registry
 ```
